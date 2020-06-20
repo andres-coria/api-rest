@@ -5,8 +5,8 @@ import passport from 'passport'
 import cors from 'cors';
 import morgan from 'morgan';
 
-import setMongo from './mongoose';
-//import authRoutes from './routes/auth.routes';
+import setMongo  from './mongoose';
+import userRoutes from './routes/user';
 //import specialRoutes from './routes/special.routes';
 
 const app = express();
@@ -23,16 +23,21 @@ app.use(cors());
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(passport.initialize());
+
+app.use('/favicon.ico', express.static('images/favicon.ico'));
+
+
 //passport.use(passportMiddleware);
+//routes
+app.use('/api',userRoutes)
 
 
 
 async function main() {
   try {
-    await setMongo();
-    //setRoutes(app);
+    await setMongo();    
     app.get('/', (req, res) => {
-      return res.send(`API at http://localhost:${app.get('port')}`);
+      return res.send(`API at http://localhost:${app.get('port')}/api`);
     })
     if (!module.parent) {
       app.listen(app.get('port'), () => console.log(`Angular Full Stack listening on port ${app.get('port')}`));
@@ -43,11 +48,5 @@ async function main() {
 }
 
 main();
-
-export { app };
-
-
-//app.use(authRoutes);
-//app.use(specialRoutes);
 
 export default app;

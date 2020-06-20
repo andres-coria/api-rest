@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
     "dev": "tsc-watch --onSuccess \"node dist/index.js\"",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "Andres Coria",
@@ -21,7 +21,9 @@
     "mongoose": "^5.9.19",
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "path": "^0.12.7",
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
@@ -34,6 +36,7 @@
     "@types/morgan": "^1.9.1",
     "@types/passport": "^1.0.3",
     "@types/passport-jwt": "^3.0.3",
+    "@types/serve-favicon": "^2.5.0",
     "tsc-watch": "^4.2.8",
     "typescript": "^3.9.5"
   }
