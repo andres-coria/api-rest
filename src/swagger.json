@@ -1,0 +1,289 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Mean Application API",
+      "description": "Mean Application API",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "localhost:4040",
+    "basePath": "/api-doc",
+    "tags": [
+      {
+        "name": "Users",
+        "description": "API for users in the system"
+      }
+      
+    ],
+    "schemes": [
+      "http"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "securityDefinitions": {
+      "AuthHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    },
+    "paths": {
+        "/users": {
+          "get": {
+              "tags": [
+                  "Users"
+              ],
+              "summary": "Get all users in the system",
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/Users"
+                      }
+                  }
+              }
+          }
+        },
+        "/users/count": {
+          "get": {
+              "tags": [
+                  "Users"
+              ],
+              "summary": "Get the number of users in the system",
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/Users"
+                      }
+                  }
+              }
+          }
+        },
+        "/user":{
+          "post": {
+              "tags": [
+                  "User"
+              ],
+              "summary": "Create a new user in the system",
+              "parameters": [
+                {
+                  "name": "user",
+                  "in": "body",
+                  "description": "Usuario a crear",
+                  "schema": {
+                    "$ref": "#/definitions/User"
+                  }
+                }
+              ],
+              "requestBody": {
+                  "description": "User Object",
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/definitions/User"
+                          }
+                      }
+                  }
+              },
+              "produces": [
+                  "application/json"
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/id"
+                      }
+                  },
+                  "400": {
+                      "description": "Failed. Bad post data."
+                  }
+              }
+          }
+      },
+      "/user/{id}": {
+          "parameters": [
+              {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "description": "ID of the user that we want to match",
+                  "type": "string"
+              }
+          ],
+          "get": {
+              "tags": [
+                  "User"
+              ],
+              "summary": "Get user with the given ID",
+              "parameters": [
+                  {
+                      "in": "path",
+                      "name": "id",
+                      "required": true,
+                      "description": "User with id",
+                      "schema": {
+                          "$ref": "#/definitions/id"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/User"
+                      }
+                  },
+                  "404": {
+                      "description": "Failed. User not found."
+                  }
+              }
+          },
+          "put": {
+              "summary": "Update User with the given ID",
+              "tags": [
+                  "User"
+              ],
+              "requestBody": {
+                  "description": "User Object",
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/definitions/User"
+                          }
+                      }
+                  }
+              },
+              "parameters": [
+                  {
+                      "in": "path",
+                      "name": "id",
+                      "required": true,
+                      "description": "User with new values of properties",
+                      "schema": {
+                          "$ref": "#/definitions/id"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/User"
+                      }
+                  },
+                  "400": {
+                      "description": "Failed. Bad post data."
+                  },
+                  "404": {
+                      "description": "Failed. User not found."
+                  }
+              }
+          },
+          "delete": {
+              "summary": "Delete user with given ID",
+              "tags": [
+                  "User"
+              ],
+              "parameters": [
+                  {
+                      "in": "path",
+                      "name": "id",
+                      "required": true,
+                      "description": "Delete User with id",
+                      "schema": {
+                          "$ref": "#/definitions/id"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/id"
+                      }
+                  },
+                  "404": {
+                      "description": "Failed. User not found."
+                  }
+              }
+          }
+      },
+      "/login": {
+        "post": {
+          "tags": ["Login"],
+          "description": "Login to the system",
+        "parameters": [{
+          "name": "login",
+          "in": "body",
+          "description": "User auth details",
+          "schema": {
+            "type": "object",
+            "required": ["email", "password"],
+            "properties": {
+              "email": {
+                "type": "string"
+              },
+              "password": {
+                "type": "string"
+              }
+            }
+          }
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "User is logged in",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+      }
+    },
+    "definitions": {
+      "User": {
+        "required": [
+          "email",
+          "fullname"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "email": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "password": {
+            "type": "string"           
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "isAdmin": {
+            "type": "boolean"            
+          }
+        }
+      },
+      "Users": {
+        "type": "array",
+        "$ref": "#/definitions/User"
+      }
+      
+  }
+}

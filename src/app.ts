@@ -1,19 +1,24 @@
 import express from 'express'
 import * as dotenv from 'dotenv'
 import passport from 'passport'
-//import passportMiddleware from './middlewares/passport';
+import passportMiddleware from './middlewares/passport';
 import cors from 'cors';
 import morgan from 'morgan';
+import swaggerUi from 'swagger-ui-express'
+import * as swaggerDocument from './swagger.json';
+
 
 import setMongo  from './mongoose';
 import userRoutes from './routes/user';
-//import specialRoutes from './routes/special.routes';
+
 
 const app = express();
 dotenv.config();
 
 // settings
 app.set('port', process.env.PORT || 3000);
+//swagger url
+app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // middlewares
 if (process.env.NODE_ENV !== 'test') {
@@ -23,16 +28,17 @@ app.use(cors());
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(passport.initialize());
-
-app.use('/favicon.ico', express.static('images/favicon.ico'));
-
-
-//passport.use(passportMiddleware);
+try{
+passport.use(passportMiddleware);
+}
+catch (err) {
+  console.error(err);
+}
 //routes
 app.use('/api',userRoutes)
 
 
-
+app.use('/favicon.ico', express.static('images/favicon.ico'));
 async function main() {
   try {
     await setMongo();    
