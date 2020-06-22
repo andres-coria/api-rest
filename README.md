@@ -1,5 +1,5 @@
 express Typescript Boilerplate, with a Cloud-hosted MongoDB service implementing passport with JWT autentication
-
+There is a base class in the controllers folder that defines the implementation of the basics actions (CRUD, count, list), you can extend from that class and/or implement especific behavior   
 
 1) git clone https://github.com/andres-coria/api-rest.git
 2) cd api-rest
